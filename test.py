@@ -1,6 +1,15 @@
 import unittest
-from main import sumar
+from main import suma
 
-class TestSumar(unittest.TestCase):
-    def test_sumar(self):
-        self.assertEqual(sumar(30,30),60)
+class TestSum(unittest.TestCase):
+    def test_sum(self):
+        self.assertEqual(suma(1,2), 3)
+
+    def test_sum2(self):
+        self.assertEqual(suma(3,3), 6)
+
+    def test_sum3(self):
+        self.assertEqual(suma(6,3), 9)
+
+if __name__ == '__main__':
+    unittest.main()
