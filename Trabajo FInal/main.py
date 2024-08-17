@@ -4,6 +4,9 @@ def main():
     chess = Chess()
     while True:
         play(chess)
+        move = input("Introduce tu movimiento o quit para salir: ")
+        if move == "quit":
+            break
 
 def play(chess):
     try:
@@ -15,7 +18,7 @@ def play(chess):
         chess.move(from_row, from_col, to_row, to_col)
 
     except Exception as e:
-        print("Error")
+        print("Error, asegurate introducir un movimiento valido")
 
 
 if __name__ == "__main__":
