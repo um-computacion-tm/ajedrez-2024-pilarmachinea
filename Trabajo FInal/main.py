@@ -2,8 +2,9 @@ from chess import Chess
 
 def main():
     chess = Chess()
-    while True:
+    while chess.is_playing:
         play(chess)
+
         move = input("Introduce tu movimiento o quit para salir: ")
         if move == "quit":
             break
@@ -18,7 +19,7 @@ def play(chess):
         chess.move(from_row, from_col, to_row, to_col)
 
     except Exception as e:
-        print("Error, asegurate introducir un movimiento valido")
+        print("Error, asegurate introducir un movimiento valido", e)
 
 
 if __name__ == "__main__":
