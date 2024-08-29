@@ -21,10 +21,33 @@ class TestRook(unittest.TestCase):
 
     def test_move_vertical_asc(self):
         Board = Board()
-        board.__positions__[6][0] = Pawn("white")
+        Board.__positions__[6][0] = Pawn("white")
         rook = Rook("white")
         possibles = rook.possible_positions(4,0)
         self.assertEqual(possibles, [(3,0), (2,0), (1,0), (0,0)])
+    
+    def test_move_vertical_desc_with_own_piece(self):
+        board = Board()
+        board.set_piece(6, 1, Pawn("WHITE", board))
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 1, rook)
+        possibles = rook.possible_positions_vd(4, 1)
+        self.assertEqual(
+            possibles,
+            [(5, 1)])
 
+
+
+    def test_move_vertical_desc_with_not_own_piece(self):
+        board = Board()
+        board.set_piece(6, 1, Pawn("BLACK", board))
+        rook = Rook("WHITE", board)
+        board.set_piece(4, 1, rook)
+        possibles = rook.possible_positions_vd(4, 1)
+        self.assertEqual(
+            possibles,[(5, 1), (6, 1)]
+        )
+
+          
 if __name__ == '__main__':
     unittest.main()
