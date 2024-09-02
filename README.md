@@ -1,3 +1,5 @@
+Maria del Pilar Machinea
+
 # ajedrez-2024-pilarmachinea
 ajedrez-2024-pilarmachinea created by github classroom
 

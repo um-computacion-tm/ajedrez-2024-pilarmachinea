@@ -61,9 +61,32 @@ class Board:
             board_str += "\n"
         return board_str
 
-def get_piece(self,row, col):
-    return self.__positions__[row][col]
+    def get_piece(self,row, col):
+        return self.__positions__[row][col]
 
+    def move_piece(self, start, end):
+        piece = self.board[start[1]][start[0]]
+        if not piece:
+            print("No hay ninguna pieza en la posición inicial.")
+            return False
+
+        if piece.color != self.current_turn:
+            print(f"No es el turno de {piece.color}.")
+            return False
+
+        if piece.is_valid_move(self.board, start, end):
+            destination_piece = self.board[end[1]][end[0]]
+            if destination_piece and destination_piece.color == piece.color:
+                print("No puedes capturar tu propia pieza.")
+                return False
+
+            self.board[end[1]][end[0]] = piece
+            self.board[start[1]][start[0]] = None
+            self.current_turn = 'black' if self.current_turn == 'white' else 'white'
+            return True
+        else:
+            print("Movimiento inválido.")
+            return False
 
 
 
