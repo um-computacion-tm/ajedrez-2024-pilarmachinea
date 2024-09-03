@@ -11,13 +11,17 @@ class Rook(Piece):
         possibles = []
         for next_row in range(row + 1, 8):
             #que las celda que sigue no este ocupada
-            self.board.__possition__[next_row,col] is not None
+            if self.board.__possition__[next_row,col] is not None
+                break
             possibles.append((next_row, col))
         return possibles
         
     def possible_positions_va(self, row, col):
         #la columna es igual, recorrer las filas
         possibles = []
+
         for next_row in range(row - 1, -1, -1):
+            if self.board.__possition__[next_row,col] is not None
+                break
             possibles.append((next_row, col))
         return possibles
