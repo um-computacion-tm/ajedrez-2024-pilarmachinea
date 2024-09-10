@@ -11,7 +11,7 @@ class Rook(Piece):
         possibles = []
         for next_row in range(row + 1, 8):
             #que las celda que sigue no este ocupada
-            if self.board.__possition__[next_row,col] is not None
+            if self.board.__possition__[next_row,col] is not None:
                 break
             possibles.append((next_row, col))
         return possibles
@@ -21,7 +21,7 @@ class Rook(Piece):
         possibles = []
 
         for next_row in range(row - 1, -1, -1):
-            if self.board.__possition__[next_row,col] is not None
+            if self.board.__possition__[next_row,col] is not None:
                 break
             possibles.append((next_row, col))
         return possibles

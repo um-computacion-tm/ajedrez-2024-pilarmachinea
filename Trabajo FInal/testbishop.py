@@ -1,4 +1,6 @@
 import unittest
+from piece import Bishop, Piece
+from board import Board
 
 class TestBishopPossiblePositions(unittest.TestCase):
     
@@ -29,7 +31,7 @@ class TestBishopPossiblePositions(unittest.TestCase):
         self.board.__possition__[row, col] = self.bishop
         
         # Colocar una pieza propia en una de las diagonales
-        self.board.__possition__[5, 5] = Piece('white')  # Pieza propia
+        self.board.__possition__[5, 5] = Piece ('white')  # Pieza propia
         
         # Obtener posiciones posibles para el alfil
         expected_positions = [
