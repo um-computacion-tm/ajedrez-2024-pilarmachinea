@@ -7,91 +7,71 @@ from piece import Pawn
 
 class Board:
     def __init__(self):
-        self.__positions__ = []
-        for _ in range(8):
-            col = []
-            for _ in range(8):
-                col.append(None)
-            self.__positions__.append(col)
+        """
+        Inicializa el tablero de ajedrez con las piezas en sus posiciones iniciales.
+        """
+        # Crear un tablero vacío de 8x8
+        self.__possition__ = [[None for _ in range(8)] for _ in range(8)]
+        self.setup_initial_positions()
 
-        #Posicion de inicio de cada pieza
-        self.__positions__[0][0] = Rook("black", self)
-        self.__positions__[0][7] = Rook("black", self)
-        self.__positions__[0][1] = Knight("black", self)
-        self.__positions__[0][6] = Knight("black", self)
-        self.__positions__[0][2] = Bishop("black", self)
-        self.__positions__[0][5] = Bishop("black", self)
-        self.__positions__[0][3] = Queen("black", self)
-        self.__positions__[0][4] = King("black", self)
-        self.__positions__[1][0] = Pawn("black", self)
-        self.__positions__[1][1] = Pawn("black", self)
-        self.__positions__[1][2] = Pawn("black", self)
-        self.__positions__[1][3] = Pawn("black", self)
-        self.__positions__[1][4] = Pawn("black", self)
-        self.__positions__[1][5] = Pawn("black", self)
-        self.__positions__[1][6] = Pawn("black", self)
-        self.__positions__[1][7] = Pawn("black", self)
+    def setup_initial_positions(self):
+        """
+        Configura las piezas en sus posiciones iniciales.
+        """
+        # Colocar peones
+        for col in range(8):
+            self.__possition__[1][col] = Pawn('white', self)
+            self.__possition__[6][col] = Pawn('black', self)
         
-        self.__positions__[7][7] = Rook("white", self)
-        self.__positions__[7][0] = Rook("white", self)
-        self.__positions__[7][1] = Knight("white", self)
-        self.__positions__[7][6] = Knight("white", self)
-        self.__positions__[7][2] = Bishop("white", self)
-        self.__positions__[7][5] = Bishop("white", self)
-        self.__positions__[7][3] = Queen("white", self)
-        self.__positions__[7][4] = King("white", self)
-        self.__positions__[6][0] = Pawn("white", self)
-        self.__positions__[6][1] = Pawn("white", self)
-        self.__positions__[6][2] = Pawn("white", self)
-        self.__positions__[6][3] = Pawn("white", self)
-        self.__positions__[6][4] = Pawn("white", self)
-        self.__positions__[6][5] = Pawn("white", self)
-        self.__positions__[6][6] = Pawn("white", self)
-        self.__positions__[6][7] = Pawn("white", self)
-       
+        # Colocar otras piezas
+        piece_order = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+        
+        for col, piece_cls in enumerate(piece_order):
+            self.__possition__[0][col] = piece_cls('white', self)
+            self.__possition__[7][col] = piece_cls('black', self)
 
-    def __str__(self):
-        board_str = ""
-        for row in self.__positions__:
-            for cell in row:
-                if cell is not None:
-                    board_str += str(cell)
-                else:
-                    board_str += " "
-            board_str += "\n"
-        return board_str
+    def is_within_bounds(self, row, col):
+        """
+        Verifica si la posición (row, col) está dentro de los límites del tablero.
+        """
+        return 0 <= row < 8 and 0 <= col < 8
 
-    def get_piece(self,row, col):
-        return self.__positions__[row][col]
+    def get_piece(self, row, col):
+        """
+        Devuelve la pieza en la posición especificada (row, col).
+        """
+        if self.is_within_bounds(row, col):
+            return self.__possition__[row][col]
+        return None
 
-    def move_piece(self, start, end):
-        piece = self.board[start[1]][start[0]]
-        if not piece:
-            print("No hay ninguna pieza en la posición inicial.")
-            return False
+    def move_piece(self, start_row, start_col, end_row, end_col):
+        """
+        Mueve una pieza de la posición (start_row, start_col) a (end_row, end_col) si es un movimiento válido.
+        """
+        piece = self.get_piece(start_row, start_col)
+        
+        if piece is None:
+            raise ValueError("No hay pieza en la posición de inicio.")
 
-        if piece.color != self.current_turn:
-            print(f"No es el turno de {piece.color}.")
-            return False
+        # Validar que el movimiento es posible según las reglas de la pieza
+        possible_moves = piece.possible_positions(start_row, start_col)
+        
+        if (end_row, end_col) not in possible_moves:
+            raise ValueError("Movimiento no permitido para la pieza seleccionada.")
+        
+        # Mover la pieza
+        self.__possition__[end_row][end_col] = piece
+        self.__possition__[start_row][start_col] = None
+        piece.has_moved = True
 
-        if piece.is_valid_move(self.board, start, end):
-            destination_piece = self.board[end[1]][end[0]]
-            if destination_piece and destination_piece.color == piece.color:
-                print("No puedes capturar tu propia pieza.")
-                return False
+    def print_board(self):
+        """
+        Imprime el tablero en su estado actual.
+        """
+        for row in self.__possition__:
+            print(' '.join([str(piece) if piece else '.' for piece in row]))
+        print()
 
-            self.board[end[1]][end[0]] = piece
-            self.board[start[1]][start[0]] = None
-            self.current_turn = 'black' if self.current_turn == 'white' else 'white'
-            return True
-        else:
-            print("Movimiento inválido.")
-            return False
-
-
-
-
-"""
-para poner alguna pieza pongo self.positions[0][0] = rook() (torre)
-from "archivo" import "clase"
-"""
+if __name__ == '__main__':
+    board = Board()
+    board.print_board()

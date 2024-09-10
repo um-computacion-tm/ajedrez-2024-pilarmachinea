@@ -1,5 +1,6 @@
 import unittest
-from piece import King, Board
+from piece import King
+from board import Board
 
 class TestKing(unittest.TestCase):
     def setUp(self):

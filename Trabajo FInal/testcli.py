@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from chess import Chess
+from chess import ChessGame
 from main import play
 
 class TestCli(unittest.TestCase):
@@ -10,10 +10,10 @@ class TestCli(unittest.TestCase):
     )
 
     @patch('builtins.print') # este patch controla lo que hace el print
-    @patch.object(Chess, 'move')
+    @patch.object(ChessGame, 'move')
 
     def test_happy_path(self, mock_chess_move, mock_print, mock_input ): #
-        chess = Chess()
+        chess = ChessGame()
         play(chess)
         self.assertEqual(mock_input.call_count, 4)
         self.assertEqual(mock_print.call_count, 2)
@@ -26,10 +26,10 @@ class TestCli(unittest.TestCase):
         side_effect=['hola', '1', '2', '2'], # estos son los valores que simula lo que ingresaria el usuario
         )
     @patch('builtins.print') # este patch controla lo que hace el print
-    @patch.object(Chess, 'move')
+    @patch.object(ChessGame, 'move')
 
     def test_not_happy_path(self,mock_chess_move,mock_print, mock_input ): #
-        chess = Chess()
+        chess = ChessGame()
         play(chess)
         self.assertEqual(mock_input.call_count, 1)
         self.assertEqual(mock_print.call_count, 3)
@@ -40,10 +40,10 @@ class TestCli(unittest.TestCase):
         side_effect=['1', '1', '2', 'hola'], # estos son los valores que simula lo que ingresaria el usuario
     )
     @patch('builtins.print') # este patch controla lo que hace el print
-    @patch.object(Chess, 'move')
+    @patch.object(ChessGame, 'move')
 
     def test_more_not_happy_path(self,mock_chess_move, mock_print, mock_input ): #
-        chess = Chess()
+        chess = ChessGame()
         play(chess)
         self.assertEqual(mock_input.call_count, 4)
         self.assertEqual(mock_print.call_count, 3)
