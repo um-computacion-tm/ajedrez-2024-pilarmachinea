@@ -1,5 +1,6 @@
 from chess import ChessGame
 from board import Board
+from exceptions import InvalidMove, InvalidMoveNoPiece, InvalidMoveIndexError, InvalidMoveOutOfBounds, InvalidMoveSameColor, InvalidMoveSamePlace
 
 def print_instructions():
     """
@@ -72,8 +73,4 @@ def main():
             print(f"Movimiento no válido: {e}")
 
 if __name__ == '__main__':
-    main()
-
-
-if __name__ == "__main__":
     main()
