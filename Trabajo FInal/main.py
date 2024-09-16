@@ -53,24 +53,24 @@ def main():
 
         # Intentar mover la pieza
         try:
-            piece = board.get_piece(start[0], start[1])
-            if piece is None:
-                print("No hay una pieza en la posición de inicio.")
-                continue
-            
-            # Verificar que la pieza pertenece al jugador actual
-            if piece.color != current_turn:
-                print(f"Es el turno de las {current_turn}. No puedes mover las piezas del oponente.")
-                continue
-            
-            # Mover la pieza si es válido
             board.move_piece(start[0], start[1], end[0], end[1])
-            
-            # Cambiar de turno
             current_turn = 'black' if current_turn == 'white' else 'white'
         
+        except InvalidMoveNoPiece as e:
+            print(e)
+        except InvalidMove as e:
+            print(e)
+        except InvalidMoveSameColor as e:
+            print(e)
+        except InvalidMoveSamePlace as e:
+            print(e)
+        except InvalidMoveIndexError as e:
+            print(e)
+        except InvalidMoveOutOfBounds as e:
+            print(e)
         except ValueError as e:
-            print(f"Movimiento no válido: {e}")
+            print(f"Error inesperado: {e}")
+
 
 if __name__ == '__main__':
     main()
