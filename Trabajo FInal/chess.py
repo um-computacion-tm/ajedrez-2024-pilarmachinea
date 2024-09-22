@@ -7,7 +7,8 @@ class ChessGame:
         """
         self.board = Board()
         self.current_turn = 'white'
-        self.is_game_over = False
+        self.ganador = None
+        self.reglas = reglasdemovimiento()
 
     def print_instructions(self):
         """
