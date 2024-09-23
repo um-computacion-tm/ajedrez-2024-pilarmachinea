@@ -1,4 +1,5 @@
 from board import Board
+from movimientos import MoviminetoPiezas
 
 class ChessGame:
     def __init__(self):
@@ -8,7 +9,7 @@ class ChessGame:
         self.board = Board()
         self.current_turn = 'white'
         self.ganador = None
-        self.reglas = reglasdemovimiento()
+        self.reglas = MoviminetoPiezas()
 
     def print_instructions(self):
         """
