@@ -4,7 +4,7 @@ class Piece:
         self.__name__ = name
 
     def __str__(self):
-        return self.white_str_ if self.__color__ == 'white' else self.black_str
+        return self.white_str_ if self.__color__ == 'white' else self.black_str_
     
     def color(self):
         return self.__color__

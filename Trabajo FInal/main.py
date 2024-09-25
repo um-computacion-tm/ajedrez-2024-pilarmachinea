@@ -1,76 +1,42 @@
-from chess import ChessGame
-from board import Board
+from cli import Cli
 from exceptions import InvalidMove, InvalidMoveNoPiece, InvalidMoveIndexError, InvalidMoveOutOfBounds, InvalidMoveSameColor, InvalidMoveSamePlace
 
-def print_instructions():
-    """
-    Imprime las instrucciones para jugar el juego.
-    """
-    print("Bienvenido al juego de Ajedrez en consola!")
-    print("Para mover una pieza, introduce el comando en el formato 'E2 E4'.")
-    print("Escribe 'salir' para terminar el juego.")
-    print()
-
-def parse_input(input_str):
-    """
-    Convierte una entrada del usuario en coordenadas de tablero.
-    """
-    try:
-        start, end = input_str.split()
-        start_row, start_col = 8 - int(start[1]), ord(start[0].upper()) - ord('A')
-        end_row, end_col = 8 - int(end[1]), ord(end[0].upper()) - ord('A')
-        return (start_row, start_col), (end_row, end_col)
-    except (ValueError, IndexError):
-        print("Entrada no válida. Asegúrate de usar el formato 'E2 E4'.")
-        return None, None
-
-def main():
-    """
-    Función principal para ejecutar el juego de ajedrez.
-    """
-    board = Board()
-    print_instructions()
-    
-    # Inicializar el turno con las blancas
-    current_turn = 'white'
+def iniciar_juego():
+    jugador = Cli()
+    jugador.comenzar()
 
     while True:
-        board.print_board()
-        print(f"Turno de las {current_turn}.")
-        
-        # Pedir al jugador que ingrese un movimiento
-        move_input = input("Introduce tu movimiento: ")
-        
-        if move_input.lower() == 'salir':
-            print("Gracias por jugar!")
-            break
-        
-        # Convertir la entrada a coordenadas del tablero
-        start, end = parse_input(move_input)
-        
-        if start is None or end is None:
-            continue
-
-        # Intentar mover la pieza
         try:
-            board.move_piece(start[0], start[1], end[0], end[1])
-            current_turn = 'black' if current_turn == 'white' else 'white'
-        
-        except InvalidMoveNoPiece as e:
-            print(e)
-        except InvalidMove as e:
-            print(e)
-        except InvalidMoveSameColor as e:
-            print(e)
-        except InvalidMoveSamePlace as e:
-            print(e)
-        except InvalidMoveIndexError as e:
-            print(e)
-        except InvalidMoveOutOfBounds as e:
-            print(e)
-        except ValueError as e:
-            print(f"Error inesperado: {e}")
+            entrada_usuario = input("Introduce tu movimiento (o quit para salir): ")  # Obtiene entrada del usuario
+            if entrada_usuario.lower() == "quit":  # Verifica si la entrada es "QUIT"
+                print("Gracias por jugar. ¡Hasta luego!")
+                break  # Sale del bucle y termina el juego
 
+            # Asumiendo que la entrada tiene el formato "E2 E4" o similar
+            movimientos = entrada_usuario.split()
+            if len(movimientos) != 2:
+                print("Entrada no válida. Asegúrate de usar el formato correcto.")
+                continue
+            
+            origen, destino = movimientos[0], movimientos[1]
+
+            resultado_movimiento = jugador.chess.realizar_movimiento(origen, destino)
+
+            if resultado_movimiento == "ReyCapturado":
+                print("¡El rey ha sido capturado! Fin de la partida.")
+                print("El jugador ganador es: " + jugador.chess.obtener_ganador())
+                break
+
+            # Limpiar la pantalla al finalizar cada turno (si tienes esta función)
+            jugador.limpiar_pantalla()
+
+            # Mostrar el nuevo estado del tablero
+            jugador.mostrar_tablero()
+
+        except ValueError as error:
+            print("Entrada no válida. Se esperaba un movimiento en el formato E2 E4.")
+        except Exception as error:  # Maneja cualquier otra excepción
+            print(error)
 
 if __name__ == '__main__':
-    main()
+    iniciar_juego()

@@ -1,25 +1,27 @@
 from chess import ChessGame
-from board import Board
+from board import Tablero
 from exceptions import InvalidMove, InvalidMoveNoPiece, InvalidMoveIndexError, InvalidMoveOutOfBounds, InvalidMoveSameColor, InvalidMoveSamePlace
 
 class Cli:
 
     def __init__(self):
-        chess = ChessGame()
-        board = chess.get_board()
-        position = board.get_position()
-        return [chess, position]
+        self.chess = ChessGame()
+        self.positions = self.chess.obtener_tablero().obtener_posiciones()
+        
     
-    def comenzar(self,chess, positions):
+    def comenzar(self):
         print("Para salir escriba QUIT.")
-        print("Turno: " + chess.get_turn())
-        print("   " + "   ".join([str(i) for i in range(8)]))
-        print("  " + "----" * 8) 
+        self.mostrar_tablero()
 
-        for i, fila in enumerate(positions):
-            fila_str = ' | '.join([str(piece) if piece else ' ' for piece in fila])
-            print(f'{i} | {fila_str} |') 
-            print("  " + "----" * 8)  
+    def mostrar_tablero(self):
+            print("Turno: " + self.chess.obtener_turno_actual())
+            print("   " + "   ".join([str(i) for i in range(8)]))
+            print("  " + "----" * 8) 
+
+            for i, fila in enumerate(self.positions):
+                fila_str = ' | '.join([str(piece) if piece else ' ' for piece in fila])
+                print(f'{i} | {fila_str} |') 
+                print("  " + "----" * 8)  
 
 
     def input_function(self):
