@@ -10,7 +10,6 @@ class Cli:
         
     
     def comenzar(self):
-        print("Para salir escriba QUIT.")
         self.mostrar_tablero()
 
     def mostrar_tablero(self):
