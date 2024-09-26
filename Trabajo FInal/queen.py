@@ -1,5 +1,7 @@
 from piece import Piece
 
 class Queen(Piece):
-    white_str_ = "♕"
-    black_str_ = "♛"
+    __white_str__ = "♕"
+    __black_str__ = "♛"
+    
+    

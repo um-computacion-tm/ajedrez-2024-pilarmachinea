@@ -24,21 +24,17 @@ class Cli:
 
 
     def input_function(self):
-        from_row = int(input('From row: '))
+        try:
+            from_row = int(input('From row: '))
+            from_col = int(input('From col: '))
+            to_row = int(input('To row: '))
+            to_col = int(input('To col: '))
 
-            # Si el usuario introduce 999, significa que se quiere salir del juego
-        if from_row == 999:
-                return False
+        # Verificar si las coordenadas están dentro del rango
+            if any(coord < 0 or coord > 7 for coord in [from_row, from_col, to_row, to_col]):
+                raise InvalidMoveOutOfBounds()
 
-        Cli.buscar_index_error(self,from_row)
-
-        from_col = int(input('From col: '))
-        Cli.buscar_index_error(self,from_col)
-
-        to_row = int(input('To row: '))
-        Cli.buscar_index_error(self,to_row)
-
-        to_col = int(input('To col: '))
-        Cli.buscar_index_error(self,to_col)   
-
-        return [from_row, from_col, to_row, to_col]
+            return [from_row, from_col, to_row, to_col]
+        except ValueError:
+            print("Error: Entrada no válida. Debe introducir un número entero.")
+            return False

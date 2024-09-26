@@ -1,12 +1,12 @@
 import unittest
-from piece import Bishop, Piece
-from board import Board
+from board import Tablero
+from bishop import Bishop
 
 class TestBishopPossiblePositions(unittest.TestCase):
     
     def setUp(self):
         # Crear un tablero vacío
-        self.board = Board()
+        self.board = Tablero()
         self.bishop = Bishop('white', self.board)  # Suponemos que el alfil es blanco
         
     def test_free_movement(self):

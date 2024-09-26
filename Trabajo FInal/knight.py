@@ -1,5 +1,5 @@
 from piece import Piece
 
 class Knight(Piece):
-    white_str_= "♘"
-    black_str_ = "♞"
+    __white_str__= "♘"
+    __black_str__ = "♞"
