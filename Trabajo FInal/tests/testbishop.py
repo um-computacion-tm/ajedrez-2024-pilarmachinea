@@ -1,6 +1,7 @@
 import unittest
 from board import Tablero
 from bishop import Bishop
+from piece import Piece
 
 class TestBishopPossiblePositions(unittest.TestCase):
     
@@ -12,7 +13,7 @@ class TestBishopPossiblePositions(unittest.TestCase):
     def test_free_movement(self):
         # Colocar el alfil en el centro del tablero
         row, col = 4, 4
-        self.board.__possition__[row, col] = self.bishop
+        self.board.position[row, col] = self.bishop
         
         # Obtener posiciones posibles para el alfil
         expected_positions = [

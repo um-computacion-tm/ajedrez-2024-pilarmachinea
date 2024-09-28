@@ -15,9 +15,9 @@ class TestKing(unittest.TestCase):
         """
         Prueba de posibles movimientos del rey en el centro del tablero.
         """
-        self.board.__possition__ = [[None] * 8 for _ in range(8)]  # Limpiar el tablero
+        self.board.possition = [[None] * 8 for _ in range(8)]  # Limpiar el tablero
         row, col = 4, 4  # Colocar el rey en el centro
-        self.board.__possition__[row][col] = self.white_king
+        self.board.possition[row][col] = self.white_king
         
         expected_moves = [
             (5, 4), (3, 4), (4, 5), (4, 3), (5, 5), (5, 3), (3, 5), (3, 3)
