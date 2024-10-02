@@ -6,50 +6,39 @@ from king import King
 from pawn import Pawn
 from exceptions import InvalidMoveOutOfBounds, InvalidMove, InvalidMoveNoPiece, InvalidMoveIndexError, InvalidMoveSameColor, InvalidMoveSamePlace
 
+
 class Tablero:
     def __init__(self):
-        self.positions= []
-        for fila in range(8):
-            col = []
-            for columna in range(8):
-                col.append(None)
-            self.positions.append(col)
+        self.positions = [[None for _ in range(8)] for _ in range(8)]
+        self.setup_pieces()
 
-        #piezas blancas
-        self.positions[0][0] = Rook("Blanco")
-        self.positions[0][1] = Knight("Blanco")
-        self.positions[0][2] = Bishop("Blanco")
-        self.positions[0][3] = King("Blanco")
-        self.positions[0][4] = Queen("Blanco")
-        self.positions[0][5] = Bishop("Blanco")
-        self.positions[0][6] = Knight("Blanco")
-        self.positions[0][7] = Rook("Blanco")
-        
-
-        #peones
+    def setup_pieces(self):
+        """Coloca las piezas en el tablero."""
+        # Piezas blancas
+        self.positions[0] = [
+            Rook("Blanco"), Knight("Blanco"), Bishop("Blanco"),
+            King("Blanco"), Queen("Blanco"), Bishop("Blanco"),
+            Knight("Blanco"), Rook("Blanco")
+        ]
+        # Peones blancos
         for i in range(8):
             self.positions[1][i] = Pawn("Blanco")
+        # Peones negros
+        for i in range(8):
             self.positions[6][i] = Pawn("Negro")
-
-        #piezas negras
-        self.positions[7][0] = Rook("Negro")
-        self.positions[7][1] = Knight("Negro")
-        self.positions[7][2] = Bishop("Negro")
-        self.positions[7][3] = King("Negro")
-        self.positions[7][4] = Queen("Negro")
-        self.positions[7][5] = Bishop("Negro")
-        self.positions[7][6] = Knight("Negro")
-        self.positions[7][7] = Rook("Negro")
+        # Piezas negras
+        self.positions[7] = [
+            Rook("Negro"), Knight("Negro"), Bishop("Negro"),
+            King("Negro"), Queen("Negro"), Bishop("Negro"),
+            Knight("Negro"), Rook("Negro")
+        ]
 
     def __str__(self):
         """Devuelve una representación en cadena del tablero."""
         board_str = ""
-        for row in self.__positions__:
+        for row in self.positions:
             for cell in row:
-                if cell is not None:
-                    board_str += str(cell) + " "
-                else:
-                    board_str += ". "
+                board_str += str(cell) + " " if cell is not None else ". "
             board_str += "\n"
         return board_str
 
@@ -60,16 +49,18 @@ class Tablero:
     def get_piece(self, row, col):
         """Devuelve la pieza en una posición determinada o None si está vacía."""
         if not self.valid_position(row, col):
-            return None  # Cambiar a retornar None en lugar de lanzar una excepción
+            return None
         return self.positions[row][col]
 
     def move_piece(self, from_row, from_col, to_row, to_col):
         """Mueve una pieza de una posición a otra si el movimiento es válido."""
         if not self.valid_position(from_row, from_col) or not self.valid_position(to_row, to_col):
-            raise InvalidMoveOutOfBounds ("Una o ambas coordenadas están fuera del rango del tablero")
+            raise InvalidMoveOutOfBounds("Una o ambas coordenadas están fuera del rango del tablero")
 
         # Obtener la pieza de origen
         piece = self.get_piece(from_row, from_col)
+        if piece is None:
+            raise InvalidMoveNoPiece("No hay ninguna pieza en la posición de origen")
 
         # Verificar si el movimiento es válido según las reglas de la pieza
         if not piece.valid_moves(from_row, from_col, to_row, to_col):
